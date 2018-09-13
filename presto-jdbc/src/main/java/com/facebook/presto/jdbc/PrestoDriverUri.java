@@ -92,7 +92,7 @@ final class PrestoDriverUri
         address = HostAndPort.fromParts(uri.getHost(), uri.getPort());
         properties = mergeConnectionProperties(uri, driverProperties);
 
-        validateConnectionProperties(properties);
+//        validateConnectionProperties(properties);
 
         // enable SSL by default for standard port
         useSecureConnection = SSL.getValue(properties).orElse(uri.getPort() == 443);

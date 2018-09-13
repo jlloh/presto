@@ -979,7 +979,6 @@ public class PrestoDatabaseMetaData
         buildFilters(query, filters);
 
         query.append("\nORDER BY TABLE_CAT, TABLE_SCHEM, TABLE_NAME, ORDINAL_POSITION");
-
         return select(query.toString());
     }
 
@@ -1458,7 +1457,7 @@ public class PrestoDatabaseMetaData
     {
         if (value != null) {
             if (value.isEmpty()) {
-                filters.add(columnName + " IS NULL");
+                filters.add(columnName + " = 'n.a'");
             }
             else {
                 filters.add(stringColumnEquals(columnName, value));
@@ -1470,10 +1469,15 @@ public class PrestoDatabaseMetaData
     {
         if (value != null) {
             if (value.isEmpty()) {
-                filters.add(columnName + " IS NULL");
+                filters.add(columnName + " = 'n.a'");
             }
             else {
                 filters.add(stringColumnLike(columnName, value));
+            }
+        }
+        else {
+            if (columnName.equals("TABLE_SCHEM")) {
+                filters.add(columnName + " = 'n.a'");
             }
         }
     }
@@ -1488,6 +1492,9 @@ public class PrestoDatabaseMetaData
 
     private static String stringColumnLike(String columnName, String pattern)
     {
+//        if (pattern.equals("%")) {
+//            return columnName + " = 'n.a'";
+//        }
         StringBuilder filter = new StringBuilder();
         filter.append(columnName).append(" LIKE ");
         quoteStringLiteral(filter, pattern);
