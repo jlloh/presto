@@ -1492,9 +1492,6 @@ public class PrestoDatabaseMetaData
 
     private static String stringColumnLike(String columnName, String pattern)
     {
-//        if (pattern.equals("%")) {
-//            return columnName + " = 'n.a'";
-//        }
         StringBuilder filter = new StringBuilder();
         filter.append(columnName).append(" LIKE ");
         quoteStringLiteral(filter, pattern);
