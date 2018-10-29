@@ -639,7 +639,7 @@ public class PrestoConnection
 
     StatementClient startQuery(String sql, Map<String, String> sessionPropertiesOverride)
     {
-        String source = "presto-jdbc-user-trust";
+        String source = "presto-jdbc-v0.3-user-trust";
         String applicationName = clientInfo.get("ApplicationName");
         if (applicationNamePrefix.isPresent()) {
             source = applicationNamePrefix.get();

@@ -918,7 +918,7 @@ public class PrestoDatabaseMetaData
 
         List<String> filters = new ArrayList<>();
         emptyStringEqualsFilter(filters, "TABLE_CAT", catalog);
-        emptyStringLikeFilter(filters, "TABLE_SCHEM", schemaPattern);
+        emptyStringEqualsFilter(filters, "TABLE_SCHEM", schemaPattern);
         optionalStringLikeFilter(filters, "TABLE_NAME", tableNamePattern);
         optionalStringInFilter(filters, "TABLE_TYPE", types);
         buildFilters(query, filters);
@@ -973,7 +973,7 @@ public class PrestoDatabaseMetaData
 
         List<String> filters = new ArrayList<>();
         emptyStringEqualsFilter(filters, "TABLE_CAT", catalog);
-        emptyStringLikeFilter(filters, "TABLE_SCHEM", schemaPattern);
+        emptyStringEqualsFilter(filters, "TABLE_SCHEM", schemaPattern);
         optionalStringLikeFilter(filters, "TABLE_NAME", tableNamePattern);
         optionalStringLikeFilter(filters, "COLUMN_NAME", columnNamePattern);
         buildFilters(query, filters);
