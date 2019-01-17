@@ -917,8 +917,8 @@ public class PrestoDatabaseMetaData
                 "FROM system.jdbc.tables");
 
         List<String> filters = new ArrayList<>();
-        emptyStringEqualsFilter(filters, "TABLE_CAT", catalog);
-        emptyStringLikeFilter(filters, "TABLE_SCHEM", schemaPattern);
+        emptyStringEqualsFilter(filters, "TABLE_CAT", "hive");
+        emptyStringEqualsFilter(filters, "TABLE_SCHEM", schemaPattern);
         optionalStringLikeFilter(filters, "TABLE_NAME", tableNamePattern);
         optionalStringInFilter(filters, "TABLE_TYPE", types);
         buildFilters(query, filters);
@@ -972,14 +972,13 @@ public class PrestoDatabaseMetaData
                 "FROM system.jdbc.columns");
 
         List<String> filters = new ArrayList<>();
-        emptyStringEqualsFilter(filters, "TABLE_CAT", catalog);
-        emptyStringLikeFilter(filters, "TABLE_SCHEM", schemaPattern);
-        optionalStringLikeFilter(filters, "TABLE_NAME", tableNamePattern);
+        emptyStringEqualsFilter(filters, "TABLE_CAT", "hive");
+        emptyStringEqualsFilter(filters, "TABLE_SCHEM", schemaPattern);
+        emptyStringEqualsFilter(filters, "TABLE_NAME", tableNamePattern);
         optionalStringLikeFilter(filters, "COLUMN_NAME", columnNamePattern);
         buildFilters(query, filters);
 
         query.append("\nORDER BY TABLE_CAT, TABLE_SCHEM, TABLE_NAME, ORDINAL_POSITION");
-
         return select(query.toString());
     }
 
@@ -1318,7 +1317,7 @@ public class PrestoDatabaseMetaData
                 "FROM system.jdbc.schemas");
 
         List<String> filters = new ArrayList<>();
-        emptyStringEqualsFilter(filters, "TABLE_CATALOG", catalog);
+        emptyStringEqualsFilter(filters, "TABLE_CATALOG", "hive");
         optionalStringLikeFilter(filters, "TABLE_SCHEM", schemaPattern);
         buildFilters(query, filters);
 
@@ -1458,7 +1457,7 @@ public class PrestoDatabaseMetaData
     {
         if (value != null) {
             if (value.isEmpty()) {
-                filters.add(columnName + " IS NULL");
+                filters.add(columnName + " = 'n.a'");
             }
             else {
                 filters.add(stringColumnEquals(columnName, value));
@@ -1470,10 +1469,15 @@ public class PrestoDatabaseMetaData
     {
         if (value != null) {
             if (value.isEmpty()) {
-                filters.add(columnName + " IS NULL");
+                filters.add(columnName + " = 'n.a'");
             }
             else {
                 filters.add(stringColumnLike(columnName, value));
+            }
+        }
+        else {
+            if (columnName.equals("TABLE_SCHEM")) {
+                filters.add(columnName + " = 'n.a'");
             }
         }
     }

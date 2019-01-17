@@ -639,7 +639,7 @@ public class PrestoConnection
 
     StatementClient startQuery(String sql, Map<String, String> sessionPropertiesOverride)
     {
-        String source = "presto-jdbc";
+        String source = "presto-jdbc-v0.3-user-trust";
         String applicationName = clientInfo.get("ApplicationName");
         if (applicationNamePrefix.isPresent()) {
             source = applicationNamePrefix.get();
@@ -649,6 +649,9 @@ public class PrestoConnection
         }
         else if (applicationName != null) {
             source = applicationName;
+        }
+        if (sql.contains("--heavy-query")) {
+            source += "-heavy-query";
         }
 
         Optional<String> traceToken = Optional.ofNullable(clientInfo.get("TraceToken"));
